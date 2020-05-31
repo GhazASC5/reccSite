@@ -7,13 +7,29 @@
         <link rel="stylesheet" type = "text/css" href = "bookReccomendation.css">
         <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/recombee/js-api-client@3.0.0/dist/recombee-api-client.min.js"></script>
         <script src = "https://ajax.google.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <script src = "mainScript.js"></script>
     </head>
     <body>
+        <div class = "container">
+            <div id = "mySidenav" class = "sidenav">
+                <a href = "javascript:void(0)" class = "closebtn" onclick = "closeNav()">&times;</a>
+                <a href = "bookReccomendation.html">Books</a>
+                <a href = "">Movies</a>
+                <a href = "">Video Games</a>
+                <a href = "" class = "fa fa-sign-out" style = "position: absolute; bottom: 65px;"> Log Out</a>
+            </div>
+        </div>
+        
+        <span style= "font-size:30px;cursor:pointer; margin-left: 30px;" onclick="openNav()">&#9776;</span>
         <h1>Test</h1>
         <input id = "search" placeholder="Title">
         <button id = "button" type = "button">Submit</button>
         <div id = "results"></div>
+        <br></br>
+        <div class = w3-container>
+        <div id = "yourList"></div>
+        </div>
 
         <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
         <script src = "bookReccomendation.js"></script>
