@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h1>Related products</h1>
+            <div class="col-md-12">
+                <div class="row" id='relatedProducts'>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/recombee/js-api-client@3.0.0/dist/recombee-api-client.min.js"></script>
+
+    <script type="text/javascript">
+
+    // A simple function for rendering a box with recommended product
+    function showProduct(title, description, link, imageLink, price){
+        return  [
+          '<div class="col-md-4 text-center col-sm-6 col-xs-6">',
+          '    <div class="thumbnail product-box" style="min-height:300px">',
+          '        <img src="' + imageLink +'" alt="" />',
+          '        <div class="caption">',
+          '            <h3><a href="' + link +'">' + title + '</a></h3>',
+          '            <p>Price : <strong>$ ' + price + '</strong>  </p>',
+          '            <p>' + description+ '</p>',
+          '            <a href="' + link +'" class="btn btn-primary" role="button">See Details</a></p>',
+          '        </div>',
+          '    </div>',
+          '</div>'
+        ].join("\n")
+    }
+
+    // Initialize client
+    var client = new recombee.ApiClient('js-client-example', 'dXx2Jw4VkkYQP1XU4JwBAqGezs8BNzwhogGIRjDHJi39Yj3i0tWyIZ0IhKKw5Ln7');
+
+    var itemId = 'product-270';
+    var userId = 'user-1539'
+
+    // Send detail view
+    client.send(new recombee.AddDetailView(userId, itemId));
+
+    // Request recommended items
+    client.send(new recombee.RecommendItemsToItem(itemId, userId, 3,
+      {
+        returnProperties: true,
+        includedProperties: ['title', 'description', 'link', 'image_link', 'price'],
+        filter: "'title' != null AND 'availability' == \"in stock\"",
+        scenario: 'related_items'
+      }),
+      (err, resp) => {
+        if(err) {
+          console.log("Could not load recomms: ", err);
+          return;
+        }
+        // Show recommendations
+        var recomms_html = resp.recomms.map(r => r.values).
+                    map(vals => showProduct(vals['title'], vals['description'],
+                        vals['link'], vals['image_link'], vals['price']));
+        document.getElementById("relatedProducts").innerHTML = recomms_html.join("\n");
+      }
+    );
+    </script>
+
+</body>
+</html>
