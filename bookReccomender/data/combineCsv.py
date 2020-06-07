@@ -29,4 +29,4 @@ mergedData = mergedData.iloc[1:]
 mergedData.sort_values(by=['Total_Rating'], ascending = False , inplace = True)
 
 #Saved data as a new csv file
-mergedData.to_csv('../Data_for_Books.csv')
+# mergedData.to_csv('../Data_for_Books.csv')
