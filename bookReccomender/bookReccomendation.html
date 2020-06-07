@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type = "text/css" href = "../style.css">
+        <link rel="stylesheet" type = "text/css" href = "bookReccomendation.css">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/recombee/js-api-client@3.0.0/dist/recombee-api-client.min.js"></script>
+        <script src = "https://ajax.google.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script src = "../mainScript.js"></script>
+    </head>
+    <body>
+        <!-- Nav Bar -->
+
+        <div class = "container" style = "position: absolute;">
+            <div id = "mySidenav" class = "sidenav">
+                <a href = "javascript:void(0)" class = "closebtn" onclick = "closeNav()">&times;</a>
+                <a href = "bookReccomendation.html">Books</a>
+                <a href = "">Movies</a>
+                <a href = "">Video Games</a>
+                <a href = "" class = "fa fa-sign-out" style = "position: absolute; bottom: 65px;"> Log Out</a>
+            </div>
+        </div>
+        <span style= "font-size:30px;cursor:pointer; margin-left: 30px;" onclick="openNav()">&#9776;</span>
+
+        <!-- End of Nav Bar -->
+
+        <!-- Start of Search Container -->
+        <div class="w3-container" >
+            <!-- Search Bar -->
+            <div style="text-align: center;" id = "searchbar">
+                <div style="left: 50%;">
+                    <input id = "search" placeholder="Title" style = "text-align: center;">
+                    <button id = "button" type = "button">Submit</button>
+                </div>
+            </div>
+            <!-- End of Search Bar -->
+
+            <!-- Start of results -->
+            <div id = "results"></div>
+            <!-- End of results -->
+        </div>
+
+        <!-- End Of Search Container -->
+
+        <!-- Start of User List -->
+        <div style="text-align: center;" class = "w3-container">
+            <h2 style = "left: 50%;">Your List</h2>
+            <div id = "yourList"></div>
+        </div>
+
+        <!-- End of User List -->
+
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/recombee/js-api-client@3.0.0/dist/recombee-api-client.min.js"></script>
+        <script src = "bookReccomendation.js"></script>
+    </body>
+</html>
+
+<!-- Books API KEY: AIzaSyCb0gMcn_Ht5H2_Z4-3qXQu3EknzV_Osc4 -->
