@@ -23,12 +23,25 @@ function bookSearch(){
 }
 
 function addBookToYourList(id){
-    document.getElementById(id).remove()
-    var cardDiv =  document.getElementById("card" +id);
-    var clone = cardDiv.cloneNode(true);
-    var list= document.getElementById("yourList")
-    list.appendChild(clone);
-    cardDiv.remove();
+    $.ajax({
+        // type: 'get',
+        // url: 'bookReccomendation.py',
+        // cache:false,
+        // async: 'asynchronus',
+        // dataType: 'json',
+        // success: function(data){
+
+        // }
+        type:"POST",
+        url: "bookReccomendation.py",
+        data: {param: id}
+    })
+    // document.getElementById(id).remove()
+    // var cardDiv =  document.getElementById("card" +id);
+    // var clone = cardDiv.cloneNode(true);
+    // var list= document.getElementById("yourList")
+    // list.appendChild(clone);
+    // cardDiv.remove();
     
 }
 
