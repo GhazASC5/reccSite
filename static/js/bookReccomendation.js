@@ -1,4 +1,7 @@
 function bookSearch(){
+    if(typeof bookSearch.counter == 'undefined'){
+        bookSearch.counter = 0;
+    }
     var search = document.getElementById('search').value
     var a ='<a href="#" data-theme="b" data-role="button">',b='</a>'
     document.getElementById('results').innerHTML = ""
@@ -11,43 +14,35 @@ function bookSearch(){
         success: function(data){
             console.log(data)
             for(i = 0 ; i < data.items.length ; i++){
-                if(i == 0){
+                if(bookSearch.counter == 0){
                     searchbar.innerHTML +="<h2 style = left:50%>Search Results</h2>"  
                 }
-
-                results.innerHTML += "<div class = card id = card"  + i + ">"  + "<h4 id = title style = text-align:center;>" + data.items[i].volumeInfo.title + "</h4>" + "<img src = " + data.items[i].volumeInfo.imageLinks.thumbnail + "id = bookPicture" + i + " style = width:100%;>" + "<div class = container>" +"<p><button class = w3-button-xlarge type = button onclick = addBookToYourList(this.id) style = width:100%; id =" + i + " >Add</button></p>" + "</div>" + "</div>"
+                results.innerHTML += "<div class = card id = card"  + i + ">"  
+                        + "<h4 id = title style = text-align:center;>" 
+                        + data.items[i].volumeInfo.title + "</h4>" + 
+                        "<img src = " + data.items[i].volumeInfo.imageLinks.thumbnail + 
+                        "id = bookPicture" + i + " style = width:100%;>" + 
+                        "<div class = container>" +
+                        "<p><button class = w3-button-xlarge type = button onclick = addBookToYourList(this.id) style = width:100%; id =" + i + 
+                        " >Add</button></p>" + 
+                        "</div>" + 
+                        "</div>"
             }
         },
         type: "GET"
     });
+    bookSearch.counter++
 }
 
 function addBookToYourList(id){
+    console.log(document.getElementById("card"+id).childNodes[0].textContent);
+    jQuery.support.cors = true;
+    var divName = "card" + id;
+    let thisDiv = $(divName).html();
     $.ajax({
-        // type: 'get',
-        // url: 'bookReccomendation.py',
-        // cache:false,
-        // async: 'asynchronus',
-        // dataType: 'json',
-        // success: function(data){
-
-        // }
-        type:"POST",
-        url: "bookReccomendation.py",
-        data: {param: id}
-    })
-    // document.getElementById(id).remove()
-    // var cardDiv =  document.getElementById("card" +id);
-    // var clone = cardDiv.cloneNode(true);
-    // var list= document.getElementById("yourList")
-    // list.appendChild(clone);
-    // cardDiv.remove();
-    
+        type: 'GET, POST',
+        url: '/recc',
+        data: {book_name: document.getElementById("card"+id).childNodes[0].textContent},
+        dataType: "text"
+    });
 }
-
-function getReccomendation(){
-    // var client = new recombee.ApiClient()
-    // https://github.com/recombee/js-api-client#integration-example
-}
-
-document.getElementById('button').addEventListener('click', bookSearch, false)
