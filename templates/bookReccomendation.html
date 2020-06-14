@@ -49,14 +49,17 @@
         <div style="text-align: center;" class = "w3-container">
             <h2 style = "left: 50%;">Reccomended Books</h2>
             <div id = "yourList">
-                {% for data in data %}
-                <p>{{ data }}</p>
-                {% endfor %}
+                <ul>
+                    {{ data }}
+                </ul>
             </div>
         </div>
 
         <!-- End of User List -->
-
+        <script type= "text/javascript">
+            var book = {{ data }}
+            console.log(book)
+        </script>
         <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/recombee/js-api-client@3.0.0/dist/recombee-api-client.min.js"></script>
         <script src = "{{ url_for('static', filename='js/bookReccomendation.js') }}"></script>

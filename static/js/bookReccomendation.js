@@ -40,9 +40,15 @@ function addBookToYourList(id){
     var divName = "card" + id;
     let thisDiv = $(divName).html();
     $.ajax({
-        type: 'GET, POST',
+        type: 'GET',
         url: '/recc',
         data: {book_name: document.getElementById("card"+id).childNodes[0].textContent},
         dataType: "text"
-    });
+
+        
+    }); 
+    console.log(book)
+    // let bookname = {{ data }};
+    // console.log(bookname);
+
 }

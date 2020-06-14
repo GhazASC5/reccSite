@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, json
 import pandas as pd 
 import numpy as numpy
 
@@ -13,7 +13,7 @@ def index():
 def bookPage():
     return render_template('bookReccomendation.html') 
 
-@app.route('/recc', methods=['GET','POST'] )
+@app.route('/recc', methods=['GET', 'POST'])
 def get_divinfo():
     bookName = request.args.get("book_name")
     data = pd.read_csv("static/csv/Data_for_Books.csv")
@@ -26,13 +26,21 @@ def get_divinfo():
     totalRating = int(thisBookData.Total_Rating)
 
     #Finds closest books to the book picked
-    ReccomendedBook = data[(abs(data['Average_Rating']-rating) <= .5 )&(abs(data['Year_Published']-yearpublished) <=5)&(abs(data['Year_Published']-yearpublished)<=5)&(abs(data['Total_Rating']-totalRating)<=400)]
+    ReccomendedBook = data[(abs(data['Average_Rating']-rating)<=.5)
+                        &(abs(data['Year_Published']-yearpublished)<=5)
+                        &(abs(data['Year_Published']-yearpublished)<=5)
+                        &(abs(data['Total_Rating']-totalRating)<=400)]
 
-    ReccomendedBook = ReccomendedBook[ReccomendedBook['Book_Title']!=bookName] 
-
-    print(ReccomendedBook.iloc[:5])
-    #Figure out how to pass elements back html
-    return render_template('bookReccomendation.html', data=ReccomendedBook.iloc[:5])
+    # ReccomendedBook = ReccomendedBook[ReccomendedBook['Book_Title']!=bookName]
+    
+    bestBook = ReccomendedBook.iloc[:1]
+    # print(bestBook)
+    bestBookName = str(bestBook.Book_Title)
+    # print(bestBookName)
+    # return jsonify(bestBookName)
+    bookInfo = {'Book_Name': str(bestBook.Book_Title)}
+    print(bookInfo)
+    return render_template('bookReccomendation.html', data=bestBookName)
 
 
 if __name__ == '__main__':
