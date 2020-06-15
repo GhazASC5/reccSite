@@ -43,12 +43,13 @@ function addBookToYourList(id){
         type: 'GET',
         url: '/recc',
         data: {book_name: document.getElementById("card"+id).childNodes[0].textContent},
-        dataType: "text"
-
-        
-    }); 
-    console.log(book)
-    // let bookname = {{ data }};
-    // console.log(bookname);
-
+        success: function(response){
+            for(i = 0 ; i < 3 ; i++){
+                yourList.innerHTML += "<div class = card><h1>" + response.Book_Name[i] + "</h1>" +
+                "<img style = width:80%; height:60%; src =" + response.Url[i] + "></div>";
+            }
+            // yourList.innerHTML += "<div class = card><h1>" + response.Book_Name + "</h1>" +
+            // "<img style = width:10%; height:10%; src =" + response.Url + "></div>";
+        }
+    });
 }

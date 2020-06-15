@@ -33,14 +33,27 @@ def get_divinfo():
 
     # ReccomendedBook = ReccomendedBook[ReccomendedBook['Book_Title']!=bookName]
     
-    bestBook = ReccomendedBook.iloc[:1]
+    bestBook = ReccomendedBook.iloc[:3]
     # print(bestBook)
-    bestBookName = str(bestBook.Book_Title)
-    # print(bestBookName)
-    # return jsonify(bestBookName)
-    bookInfo = {'Book_Name': str(bestBook.Book_Title)}
-    print(bookInfo)
-    return render_template('bookReccomendation.html', data=bestBookName)
+    book_names = []
+    book_url = []
+    for books in range(3):
+        bookName = str(bestBook.iloc[[books]].Book_Title)
+        bookUrl = str(bestBook.iloc[[books]].Link_To_Image)
+        bookName = bookName[2:bookName.find("Name")]
+        bookUrl = bookUrl[2:bookUrl.find("Name")]
+
+        book_names.append(bookName)
+        book_url.append(bookUrl)
+
+    bestBookName = (str(bestBook.Book_Title))
+    bestBookName = bestBookName[2:bestBookName.find("Name")]
+
+    bestBookUrl = str(bestBook.Link_To_Image)
+    bestBookUrl = bestBookUrl[2:bestBookUrl.find("Name")]
+
+    bookInfo = {'Book_Name': book_names, "Url": book_url}
+    return bookInfo
 
 
 if __name__ == '__main__':
