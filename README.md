@@ -6,3 +6,5 @@
 * ~~Instantiate _flask_ pages~~
 * ~~_Send_ reccomendations from _python_ back to _html_~~
 * Clean up _CSS_ and _HTML_
+- If time allows: 
+    * Implement _flask freeze_ pages in order to deploy on github
