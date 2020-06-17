@@ -55,6 +55,9 @@ def get_divinfo():
     bookInfo = {'Book_Name': book_names, "Url": book_url}
     return bookInfo
 
+@app.route('/movieReccomendation')
+def moviePage():
+    return render_template("movieReccomendation.html")
 
 if __name__ == '__main__':
     app.run(debug=True)

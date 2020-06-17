@@ -17,8 +17,8 @@
         <div class = "container" style = "position: absolute;">
             <div id = "mySidenav" class = "sidenav">
                 <a href = "javascript:void(0)" class = "closebtn" onclick = "closeNav()">&times;</a>
-                <a href = "#bookReccomendation">Books</a>
-                <a href = "">Movies</a>
+                <a href = "../">Home</a>
+                <a href = "../movieReccomendation">Movies</a>
                 <a href = "">Video Games</a>
                 <a href = "" class = "fa fa-sign-out" style = "position: absolute; bottom: 65px;"> Log Out</a>
             </div>
@@ -54,7 +54,6 @@
 
         <!-- End of User List -->
         <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/gh/recombee/js-api-client@3.0.0/dist/recombee-api-client.min.js"></script>
         <script src = "{{ url_for('static', filename='js/bookReccomendation.js') }}"></script>
     </body>
 </html>

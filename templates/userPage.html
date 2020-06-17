@@ -4,6 +4,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename='css/style.css') }}">
+        <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename='css/userPage.css') }}">
         <script src = "{{ url_for('static', filename='js/mainScript.js') }}"></script>
     </head>
     <body>
@@ -11,11 +12,52 @@
             <div id = "mySidenav" class = "sidenav">
                 <a href = "javascript:void(0)" class = "closebtn" onclick = "closeNav()">&times;</a>
                 <a href = "/bookReccomendation">Books</a>
-                <a href = "">Movies</a>
+                <a href = "/movieReccomendation">Movies</a>
                 <a href = "">Video Games</a>
                 <a href = "" class = "fa fa-sign-out" style = "position: absolute; bottom: 65px;"> Log Out</a>
             </div>
         </div>
         <span style= "font-size:30px;cursor:pointer; margin-left: 30px;" onclick="openNav()">&#9776;</span>
+
+        <h2 style= "text-align: center;">The Mouseion</h3>
+        <div id = "carousel_books">
+            <h3 style= "text-align: center;">Top Books of All Time</h3>
+            <div class="slideshow-container">
+                <div class="mySlides1">
+                  <img src="http://prodimage.images-bn.com/pimages/9780446310789.jpg">
+                </div>
+              
+                <div class="mySlides1">
+                  <img src="http://prodimage.images-bn.com/pimages/9780143104919.jpg">
+                </div>
+              
+                <div class="mySlides1">
+                  <img src="http://prodimage.images-bn.com/pimages/9780385474542.jpg">
+                </div>
+              
+                <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+            </div>
+        </div>
+
+        <div id = "carousel_movies">
+            <div class="slideshow-container">
+                <h3 style= "text-align: center;">Top Movies of All Time</h3>
+                <div class="mySlides2">
+                    <img src="https://techcrunch.com/wp-content/uploads/2019/04/Screen-Shot-2019-04-28-at-11.00.32-AM.png?w=730&crop=1">
+                </div>
+
+                <div class="mySlides2">
+                    <img src="https://bloximages.newyork1.vip.townnews.com/redandblack.com/content/tncms/assets/v3/editorial/c/e9/ce96eda0-12dd-11e8-bd4c-7b06be0433b8/5a86723ba01f7.image.jpg"s>
+                </div>
+
+                <div class="mySlides2">
+                    <img src="https://resizing.flixster.com/iutYrePUPIK-BGTPEiJaq6m7WtU=/fit-in/200x296.2962962962963/v1.bTsxMzAyNTI3OTtqOzE4NDY1OzEyMDA7MzYwMDs1NzAw">
+                </div>
+                <a class="prev" onclick="plusSlides(-1, 1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1, 1)">&#10095;</a>
+            </div>
+        </div>
+        <script src = "{{ url_for('static', filename='js/userPage.js') }}"></script>
     </body> 
 </html>
