@@ -23,6 +23,11 @@ h1{
   font-size: large;
 }
 
+#someId{
+  display: none;
+
+}
+
 .img {
   border-radius: 5px 5px 0 0;
   /* height: 200px; */

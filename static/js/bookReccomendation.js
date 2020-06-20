@@ -47,9 +47,6 @@ function bookSearch(){
 }
 
 function addBookToYourList(id){
-//     console.log('test')
-//     console.log(document.getElementById("title"+id).textContent);
-    // console.log(document.getElementById("card"+id).childNodes[0].textContent);
     jQuery.support.cors = true;
     var divName = "card" + id;
     let thisDiv = $(divName).html();
@@ -58,6 +55,7 @@ function addBookToYourList(id){
         url: '/recc',
         data: {book_name: document.getElementById("title"+id).textContent},
         success: function(response){
+            document.getElementById("someId").style.display = "block";
             for(i = 0 ; i < 3 ; i++){
                 console.log(response.Book_Name[i] + " " + response.Url[i]);
                 yourList.innerHTML +=   "<div class= card style=width: 18rem;>" +
@@ -66,11 +64,7 @@ function addBookToYourList(id){
                                                 "<h5 id=title"+i+" class=card-title>" +  response.Book_Name[i] + "</h5>"+
                                             "</div>"+
                                         "</div>"
-                // "<div class = card><h1>" + response.Book_Name[i] + "</h1>" +
-                // "<img style = width:80%; height:60%; src =" + response.Url[i] + "></div>";
             }
-            // yourList.innerHTML += "<div class = card><h1>" + response.Book_Name + "</h1>" +
-            // "<img style = width:10%; height:10%; src =" + response.Url + "></div>";
         }
     });
 }

@@ -6,5 +6,7 @@
 * ~~Instantiate _flask_ pages~~
 * ~~_Send_ reccomendations from _python_ back to _html_~~
 * Clean up _CSS_ and _HTML_
+* Implement function to add data from _Books Api_ to a _csv_
+* Create a function to automate compiling data to place into larger data set
 - If time allows: 
     * Implement _flask freeze_ pages in order to deploy on github
