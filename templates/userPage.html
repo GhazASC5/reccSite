@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html>
-    <head>
+    <head">
+        
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename='css/style.css') }}">
         <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename='css/userPage.css') }}">
         <script src = "{{ url_for('static', filename='js/mainScript.js') }}"></script>
     </head>
-    <body>
+    <body style="background-color: lightgrey;">
+
         <div class = "container">
-            <div id = "mySidenav" class = "sidenav">
-                <a href = "javascript:void(0)" class = "closebtn" onclick = "closeNav()">&times;</a>
-                <a href = "/bookReccomendation">Books</a>
-                <a href = "/movieReccomendation">Movies</a>
-                <a href = "">Video Games</a>
-                <a href = "" class = "fa fa-sign-out" style = "position: absolute; bottom: 65px;"> Log Out</a>
+                <div id = "mySidenav" class = "sidenav">
+                    <a href = "javascript:void(0)" class = "closebtn" onclick = "closeNav()">&times;</a>
+                    <a href = "/bookReccomendation">Books</a>
+                    <a href = "/movieReccomendation">Movies</a>
+                    <a href = "">Video Games</a>
+                    <a href = "" class = "fa fa-sign-out" style = "position: absolute; bottom: 65px;"> Log Out</a>
+                </div>
+                <h1 style= "text-align: center;">The Mouseion</h1>
             </div>
         </div>
         <span style= "font-size:30px;cursor:pointer; margin-left: 30px;" onclick="openNav()">&#9776;</span>
 
-        <h2 style= "text-align: center;">The Mouseion</h3>
+        <h1 style= "text-align: center;">The Mouseion</h1>
         <div id = "carousel_books">
-            <h3 style= "text-align: center;">Top Books of All Time</h3>
+            <h2 style= "text-align: center;">Top Books of All Time</h2>
             <div class="slideshow-container">
                 <div class="mySlides1">
                   <img src="http://prodimage.images-bn.com/pimages/9780446310789.jpg">
@@ -42,7 +46,7 @@
 
         <div id = "carousel_movies">
             <div class="slideshow-container">
-                <h3 style= "text-align: center;">Top Movies of All Time</h3>
+                <h2 style= "text-align: center;">Top Movies of All Time</h2>
                 <div class="mySlides2">
                     <img src="https://techcrunch.com/wp-content/uploads/2019/04/Screen-Shot-2019-04-28-at-11.00.32-AM.png?w=730&crop=1">
                 </div>
