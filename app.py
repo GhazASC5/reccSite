@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify, json
 import pandas as pd 
+import matplotlib as plt
 import numpy as numpy
+from pandas import DataFrame
 
 
 app = Flask(__name__)
@@ -54,6 +56,25 @@ def get_divinfo():
 
     bookInfo = {'Book_Name': book_names, "Url": book_url}
     return bookInfo
+
+@app.route('/addToData', methods=['GET','POST'])
+def add_data_to_csv():
+    existingData = pd.read_csv("static/csv/googleBooksData.csv")
+    #checks if book is already in dataframe or not
+    if(request.args.get('book_name') in existingData.Book_Name.values):
+        return "Data exists"
+    else:
+        #instantiatees a data data frame for the new book
+        bookData = DataFrame({'Book_Name': request.args.get('book_name'), 'author': request.args.get('author'), "Url": request.args.get('url'),
+                     "Average_Rating": request.args.get('rating'), "Ratings_Count": request.args.get('ratings_count'), "Categories": request.args.get('categories'), "Year_Published": request.args.get('year_published')}, index =[0])
+
+        #realigns columns
+        bookData = bookData[['Book_Name', 'author', 'Url', 'Average_Rating', 'Ratings_Count','Categories','Year_Published']]
+        #adds data into the existing csv
+        bookData.to_csv("static/csv/googleBooksData.csv", mode= 'a', header=False, index=False)
+    return "Data was added"
+
+
 
 @app.route('/movieReccomendation')
 def moviePage():
