@@ -80,5 +80,10 @@ def add_data_to_csv():
 def moviePage():
     return render_template("movieReccomendation.html")
 
+
+@app.route('/login')
+def loginPage():
+    return render_template("index.html")
+
 if __name__ == '__main__':
     app.run(debug=True)
