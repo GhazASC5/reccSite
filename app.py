@@ -7,14 +7,17 @@ from pandas import DataFrame
 
 app = Flask(__name__)
 
+#opens up the userPage when the app starts
 @app.route('/')
 def index():
     return render_template('userPage.html')
 
+#Leads to the book reccomendation page
 @app.route('/bookReccomendation')
 def bookPage():
     return render_template('bookReccomendation.html') 
 
+#reccomends books to user based on what they searched and clicked
 @app.route('/recc', methods=['GET', 'POST'])
 def get_divinfo():
     bookName = request.args.get("book_name")
@@ -57,6 +60,7 @@ def get_divinfo():
     bookInfo = {'Book_Name': book_names, "Url": book_url}
     return bookInfo
 
+#calls a function that takes in data from js and places it into a csv
 @app.route('/addToData', methods=['GET','POST'])
 def add_data_to_csv():
     existingData = pd.read_csv("static/csv/googleBooksData.csv")
@@ -75,12 +79,12 @@ def add_data_to_csv():
     return "Data was added"
 
 
-
+#leads to movie reccomendation page
 @app.route('/movieReccomendation')
 def moviePage():
     return render_template("movieReccomendation.html")
 
-
+#leads to login page
 @app.route('/login')
 def loginPage():
     return render_template("index.html")
