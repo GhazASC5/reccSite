@@ -3,7 +3,7 @@ function bookSearch(){
         bookSearch.counter = 0;
     }
     var search = document.getElementById('search').value
-    var a ='<a href="#" data-theme="b" data-role="button">',b='</a>'
+    // var a ='<a href="#" data-theme="b" data-role="button">',b='</a>'
     document.getElementById('results').innerHTML = ""
     console.log(search)
     var elementCount = 0;

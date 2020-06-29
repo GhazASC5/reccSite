@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, jsonify, json
+from flask import Flask, render_template, request, jsonify, json , redirect, url_for
 import pandas as pd 
 import matplotlib as plt
 import numpy as numpy
 from pandas import DataFrame
+import sqlite3
 
 
 app = Flask(__name__)
@@ -88,6 +89,17 @@ def moviePage():
 @app.route('/login')
 def loginPage():
     return render_template("index.html")
+
+@app.route('/loginInput')
+def tryLogin(methods=['POST']):
+    connection = sqlite3.connect("Users.db")
+    c = connection.cursor()
+    c.execute('Select * from UserLogins Where "Username" = ? and "Password" = ? ', (request.args.get('username'),request.args.get('password'),))
+    if(c.fetchone()):
+        app.location = "/";
+        return redirect('/movieReccomendation')
+    
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
