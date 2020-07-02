@@ -114,6 +114,7 @@ function addBookToYourList(id){
                                             "<img class=card-img-top src=" + response.Url[i] + ">"+
                                             "<div class = card-body>"+
                                                 "<h5 id=title"+i+" class=card-title>" +  response.Book_Name[i] + "</h5>"+
+                                                "<p>" + response.Book_Author[i] + "</p>"
                                             "</div>"+
                                         "</div>"
             }

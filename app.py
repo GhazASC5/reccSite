@@ -35,21 +35,23 @@ def get_divinfo():
                         &(abs(data['Year_Published']-yearpublished)<=5)
                         &(abs(data['Year_Published']-yearpublished)<=5)
                         &(abs(data['Total_Rating']-totalRating)<=400)]
-
-    # ReccomendedBook = ReccomendedBook[ReccomendedBook['Book_Title']!=bookName]
     
     bestBook = ReccomendedBook.iloc[:3]
-    # print(bestBook)
     book_names = []
     book_url = []
+    book_authors = []
     for books in range(3):
         bookName = str(bestBook.iloc[[books]].Book_Title)
         bookUrl = str(bestBook.iloc[[books]].Link_To_Image)
+        bookAuthor = str(bestBook.iloc[[books]].Book_Author)
+
         bookName = bookName[2:bookName.find("Name")]
         bookUrl = bookUrl[2:bookUrl.find("Name")]
+        bookAuthor = bookAuthor[2:bookAuthor.find("Name")]
 
         book_names.append(bookName)
         book_url.append(bookUrl)
+        book_authors.append(bookAuthor)
 
     bestBookName = (str(bestBook.Book_Title))
     bestBookName = bestBookName[2:bestBookName.find("Name")]
@@ -57,7 +59,7 @@ def get_divinfo():
     bestBookUrl = str(bestBook.Link_To_Image)
     bestBookUrl = bestBookUrl[2:bestBookUrl.find("Name")]
 
-    bookInfo = {'Book_Name': book_names, "Url": book_url}
+    bookInfo = {'Book_Name': book_names, "Url": book_url, "Book_Author": book_authors}
     return bookInfo
 
 #calls a function that takes in data from js and places it into a csv
