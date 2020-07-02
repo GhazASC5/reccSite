@@ -92,15 +92,15 @@ def loginPage():
 #Used to check if login of a user exists in the database
 @app.route('/loginInput')
 def tryLogin(methods=['POST']):
-    connection = sqlite3.connect("Users.db")
+    connection = sqlite3.connect("sqlServer/Users.db")
     c = connection.cursor()
     c.execute('Select * from UserLogins Where "Username" = ? and "Password" = ? ', (request.args.get('username'),request.args.get('password'),))
     if(c.fetchone()):
-        app.location = "/";
+        # app.location = "/";
         #NOT WORKING BIG SADDDDDDD
-        return redirect('/movieReccomendation')
+        return "EXISTS"
     
-    return render_template('index.html')
+    return "NOT EXISTS"
 
 if __name__ == '__main__':
     app.run(debug=True)

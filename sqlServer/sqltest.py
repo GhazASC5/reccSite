@@ -5,17 +5,17 @@ connection = sqlite3.connect("Users.db")
 
 c = connection.cursor()
 
-# c.execute('''Create Table UserLogins
-#                 (Username text, Password text)''')
+c.execute('''Create Table UserLogins
+                (Username text, Password text)''')
 
-c.execute("Insert into UserLogins Values('Ghazanfar', 'Test')")
+c.execute("Insert into UserLogins Values('Ghazanfar', 'Ghazzz')")
 # for row in c.execute('Select Username from UserLogins'):
     # print(row)
 # print(c.fetchone())
 connection.commit()
 
 user = 'Ghazanfar'
-password = "Test"
+password = "Ghazzz"
 
 c.execute('Select * from UserLogins Where "Username" = ? and "Password" = ? ', (user,password,))
 
