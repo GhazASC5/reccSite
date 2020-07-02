@@ -5,7 +5,6 @@ import numpy as numpy
 from pandas import DataFrame
 import sqlite3
 
-
 app = Flask(__name__)
 
 #opens up the userPage when the app starts
@@ -90,6 +89,7 @@ def moviePage():
 def loginPage():
     return render_template("index.html")
 
+#Used to check if login of a user exists in the database
 @app.route('/loginInput')
 def tryLogin(methods=['POST']):
     connection = sqlite3.connect("Users.db")
@@ -97,6 +97,7 @@ def tryLogin(methods=['POST']):
     c.execute('Select * from UserLogins Where "Username" = ? and "Password" = ? ', (request.args.get('username'),request.args.get('password'),))
     if(c.fetchone()):
         app.location = "/";
+        #NOT WORKING BIG SADDDDDDD
         return redirect('/movieReccomendation')
     
     return render_template('index.html')
