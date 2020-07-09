@@ -1,7 +1,0 @@
-
-document.getElementById(id).remove()
-var cardDiv =  document.getElementById("card" +id);
-var clone = cardDiv.cloneNode(true);
-var list= document.getElementById("yourList")
-list.appendChild(clone);
-cardDiv.remove();
