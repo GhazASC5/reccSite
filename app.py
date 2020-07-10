@@ -86,6 +86,13 @@ def add_data_to_csv():
 def moviePage():
     return render_template("movieReccomendation.html")
 
+@app.route('/movieRecc')
+def getMovieReccomendation():
+    movie_name = request.args.get('movie_name')
+    #Figure out implementation for reccomending movies
+
+
+
 #leads to login page
 @app.route('/login')
 def loginPage():
