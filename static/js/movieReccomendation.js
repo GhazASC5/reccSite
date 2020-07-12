@@ -124,20 +124,3 @@ function returnReccomendation(movieData, modalId){
         type: "GET"
     });
 }
-
-
-//data comes in the following format
-// adult: false
-// backdrop_path: "/aPecTV7sHkgCfR4TnrrKuIdyYkd.jpg"
-// genre_ids: [99] (1)
-// id: 621551
-// original_language: "en"
-// original_title: "Chelsea FC - Season Review 2017/18"
-// overview: "Chelsea have developed that winning habit of ending the season in glory. The Blues' eighth FA Cup triumph arrived in a campaign which onc…"
-// popularity: 4.294
-// poster_path: "/t8GxjZfIzsCHEKEJexxi3byurWT.jpg"
-// release_date: "2018-06-18"
-// title: "Chelsea FC - Season Review 2017/18"
-// video: true
-// vote_averae: 0
-// vote_count: 0
