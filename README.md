@@ -10,6 +10,7 @@
 * Repeat last 3 steps for movies
 * Create a function to automate compiling data to place into larger data set
 * ~~Connect login page to _SQL_ server~~
+* Finish README description
 - Maybe
     * Implement _flask freeze_ pages in order to deploy on github
     * Use jinga to make some of the implementaions more automated

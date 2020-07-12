@@ -71,7 +71,7 @@ function movieReccomendation(id){
     jQuery.support.cors = true;
     // var divName = "card" + id;
     console.log(document.getElementById("title"+id).textContent);
-    let thisDiv = $(divName).html();
+    // let thisDiv = $(divName).html();
     $.ajax({
         type: 'GET',
         url: '/movieRecc',

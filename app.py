@@ -6,6 +6,8 @@ from pandas import DataFrame
 import sqlite3
 
 app = Flask(__name__)
+movies_data = pd.read_csv("static/csv/DataforMovies.csv")
+books_data  = pd.read_csv("static/csv/Data_for_Books.csv")
 
 #opens up the userPage when the app starts
 @app.route('/')
@@ -25,10 +27,10 @@ def get_divinfo():
 
     thisBookData = data[data.Book_Title == bookName]
 
-    rating = float(thisBookData.Average_Rating)
-    averageAge = float(thisBookData.Average_Age)
-    yearpublished = int(thisBookData.Year_Published)
-    totalRating = int(thisBookData.Total_Rating)
+    rating = float(thisBookData.Average_Rating.values[0])
+    averageAge = float(thisBookData.Average_Age.values[0])
+    yearpublished = int(thisBookData.Year_Published.values[0])
+    totalRating = int(thisBookData.Total_Rating.values[0])
 
     #Finds closest books to the book picked
     ReccomendedBook = data[(abs(data['Average_Rating']-rating)<=.5)
@@ -89,8 +91,28 @@ def moviePage():
 @app.route('/movieRecc')
 def getMovieReccomendation():
     movie_name = request.args.get('movie_name')
-    #Figure out implementation for reccomending movies
+    this_movie_data = movies_data[movies_data.title == movie_name]
 
+    bestRecc = movies_data[(movies_data['genres'] == this_movie_data.genres.values[0])&
+    (abs(movies_data['year'] - float(this_movie_data.year.values[0])))]
+    bestRecc['Comparison'] = abs(bestRecc['Average_Rating'] -  float(this_movie_data.Average_Rating.values[0]))
+    bestRecc = bestRecc[bestRecc['Comparison'] < 1.5]
+    bestRecc.drop(bestRecc[bestRecc['title'] == movie_name].index, inplace = True)
+    bestRecc.sort_values(by='Comparison', ascending = True, inplace = True)
+    
+    bestRecc = bestRecc.iloc[:3]
+    movie_names = []
+    movies_imdb = []
+    for x in range(3):
+        movie_names.append(str(bestRecc.iloc[[x]].title.values))
+        movies_imdb.append(str(bestRecc.iloc[[x]].imdbId.values))
+
+    moviesInfo = {
+        "movie_name" : movie_names,
+        "movies_id" : movies_imdb
+    }
+    
+    return moviesInfo
 
 
 #leads to login page
