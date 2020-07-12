@@ -14,4 +14,4 @@
 * Finish README description
 - Maybe
     * Implement _flask freeze_ pages in order to deploy on github
-    * Use jinga to make some of the implementaions more automated
+    * Use jinga to make some of the implementations more automated
