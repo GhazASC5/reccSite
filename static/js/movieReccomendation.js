@@ -79,16 +79,49 @@ function movieReccomendation(id){
         success: function(response){
             document.getElementById("someId").style.display = "block";
             for(i = 0 ; i < 3 ; i++){
-                // console.log(response.Book_Name[i] + " " + response.Url[i]);
-                // yourList.innerHTML +=   "<div class= card style=width: 18rem;>" +
-                //                             "<img class=card-img-top src=" + response.Url[i] + ">"+
-                //                             "<div class = card-body>"+
-                //                                 "<h5 id=title"+i+" class=card-title>" +  response.Book_Name[i] + "</h5>"+
-                //                                 "<p>" + response.Book_Author[i] + "</p>"
-                //                             "</div>"+
-                //                         "</div>"
+                returnReccomendation(response.movie_name[i], i)
             }
         }
+    });
+}
+
+function returnReccomendation(movieData, modalId){
+    if(modalId = 0){
+        yourList.innerHTML = "" //Resetting the old reccomended list
+    }
+    movieData = movieData.substr(2, movieData.length - 4)
+    $.ajax({
+        url: 'https://api.themoviedb.org/3/search/movie?api_key=4e7539d661536bf5a2c1c4ea8a1e3338&query=' + movieData,
+        dataType: "json",
+        
+        success: function(data){
+            foundIndex = -1
+            for(i = 0; i < data.results.length; i++){
+                if(data.results[i].title == movieData){
+                    foundIndex = i;
+                    break;
+                }
+            }
+            if(foundIndex != -1){
+                console.log('This was working')
+                yourList.innerHTML  += "<div class= card style=width: 18rem;>" +
+                                            "<img style= width: 200px; height: 200px;class=card-img-top src=https://image.tmdb.org/t/p/w185" + data.results[i].poster_path +">"+
+                                            "<div class = card-body>"+
+                                                "<h5 id=title"+100 + modalId+" class=card-title>" + data.results[foundIndex].original_title  + "</h5>"+
+                                                    "<button style=margin-bottom:10px;width:175px: class=btn btn-primary onclick = displayModel(this.id) id=myBtn_" + 100 + modalId + ">Movie Description</button>" +
+                                                    "<div id=myModal"+100 + modalId + " class=modal>"+
+                                                        "<div class=modal-content>" +
+                                                            "<span id =close"+100+modalId+ " class=close>&times;</span>"+
+                                                            "<h4> Title: "+data.results[foundIndex].original_title+"</h1>"+
+                                                            "<h4> Movie Overview: </h4>"+ 
+                                                            "<p>"+data.results[foundIndex].overview+"</p>"+
+                                                        "</div>"+
+                                                    "</div>"+
+                                            "</div>"+
+                                        "</div>"
+            }
+        },
+        type: "GET"
     });
 }
 

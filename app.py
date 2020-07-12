@@ -109,9 +109,11 @@ def getMovieReccomendation():
 
     moviesInfo = {
         "movie_name" : movie_names,
-        "movies_id" : movies_imdb
+        "movie_id" : movies_imdb
     }
-    
+    #This doesn't work well, maybe use cosine_similarity in the future 
+    #For the future, imdb has its own data set online
+
     return moviesInfo
 
 
