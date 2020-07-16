@@ -86,7 +86,7 @@ function movieReccomendation(id){
 }
 
 function returnReccomendation(movieData, modalId){
-    if(modalId = 0){
+    if(modalId == 0){
         yourList.innerHTML = "" //Resetting the old reccomended list
     }
     movieData = movieData.substr(2, movieData.length - 4)
@@ -103,16 +103,16 @@ function returnReccomendation(movieData, modalId){
                 }
             }
             if(foundIndex != -1){
-                console.log('This was working')
+                let newId = modalId + 100
                 yourList.innerHTML  += "<div class= card style=width: 18rem;>" +
-                                            "<img style= width: 200px; height: 200px;class=card-img-top src=https://image.tmdb.org/t/p/w185" + data.results[i].poster_path +">"+
+                                            "<img style= width: 200px; height: 200px;class=card-img-top src=https://image.tmdb.org/t/p/w185" + data.results[foundIndex].poster_path +">"+
                                             "<div class = card-body>"+
-                                                "<h5 id=title"+100 + modalId+" class=card-title>" + data.results[foundIndex].original_title  + "</h5>"+
-                                                    "<button style=margin-bottom:10px;width:175px: class=btn btn-primary onclick = displayModel(this.id) id=myBtn_" + 100 + modalId + ">Movie Description</button>" +
-                                                    "<div id=myModal"+100 + modalId + " class=modal>"+
+                                                "<h5 id=title"+newId+" class=card-title>" + data.results[foundIndex].title  + "</h5>"+
+                                                    "<button style=margin-bottom:10px;width:175px: class=btn btn-primary onclick = displayModel(this.id) id=myBtn_" + newId+ ">Movie Description</button>" +
+                                                    "<div id=myModal"+newId + " class=modal>"+
                                                         "<div class=modal-content>" +
-                                                            "<span id =close"+100+modalId+ " class=close>&times;</span>"+
-                                                            "<h4> Title: "+data.results[foundIndex].original_title+"</h1>"+
+                                                            "<span id =close"+newId+ " class=close>&times;</span>"+
+                                                            "<h4> Title: "+data.results[foundIndex].title+"</h1>"+
                                                             "<h4> Movie Overview: </h4>"+ 
                                                             "<p>"+data.results[foundIndex].overview+"</p>"+
                                                         "</div>"+

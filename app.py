@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, jsonify, json , redirect, url
 import pandas as pd 
 import matplotlib as plt
 import numpy as numpy
-from pandas import DataFrame
 import sqlite3
+import requests
 
 app = Flask(__name__)
 movies_data = pd.read_csv("static/csv/DataforMovies.csv")
@@ -116,11 +116,40 @@ def getMovieReccomendation():
 
     return moviesInfo
 
+@app.route('/gameReccomendation')
+def gamePage():
+    return render_template("videoGameReccomendation.html")
+
+@app.route('/gameSearch')
+def gameSearch():
+    url = "https://rawg-video-games-database.p.rapidapi.com/games?search=" + request.args.get('search')
+
+    #REMOVED API KEY *INSERT HERE*
+    
+    responseDict = response = requests.request("GET", url, headers=headers).json()
+
+    returnInfo = {}
+    returnInfo['game_info'] = []
+
+    for info in responseDict['results']:
+        print(info['name'])
+        returnInfo['game_info'].append({
+            "game_name" : info['name'],
+            "game_rating" : info['rating'],
+            "game_ratings_count": info['ratings_count'], 
+            "game_image" : info['background_image']
+        })
+
+    return returnInfo
+
+
 
 #leads to login page
 @app.route('/login')
 def loginPage():
     return render_template("index.html")
+
+
 
 #Used to check if login of a user exists in the database
 @app.route('/loginInput')
