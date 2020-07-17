@@ -4,10 +4,22 @@ import matplotlib as plt
 import numpy as np
 import sqlite3
 import requests
+import os
+from os import environ as env
+from dotenv import load_dotenv, find_dotenv
 
 app = Flask(__name__)
 movies_data = pd.read_csv("static/csv/DataforMovies.csv")
 books_data  = pd.read_csv("static/csv/Data_for_Books.csv")
+games_data  = pd.read_csv("static/csv/DataForGames.csv")
+
+
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
+
+games_key = os.getenv('GAMES_API_KEY')
+games_database = os.environ.get('GAMES_DATABASE')
 
 #opens up the userPage when the app starts
 @app.route('/')
@@ -124,7 +136,10 @@ def gamePage():
 def gameSearch():
     url = "https://rawg-video-games-database.p.rapidapi.com/games?search=" + request.args.get('search')
 
-    #REMOVED API KEY *INSERT HERE*
+    headers = {
+        'x-rapidapi-host' games_key,
+        'x-rapidapi-key': games_database
+    }
     
     responseDict = requests.request("GET", url, headers=headers).json()
 
