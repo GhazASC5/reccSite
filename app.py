@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, json , redirect, url_for
 import pandas as pd 
 import matplotlib as plt
-import numpy as numpy
+import numpy as np
 import sqlite3
 import requests
 
@@ -126,7 +126,7 @@ def gameSearch():
 
     #REMOVED API KEY *INSERT HERE*
     
-    responseDict = response = requests.request("GET", url, headers=headers).json()
+    responseDict = requests.request("GET", url, headers=headers).json()
 
     returnInfo = {}
     returnInfo['game_info'] = []
