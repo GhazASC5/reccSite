@@ -1,11 +1,9 @@
-let urlOne = 'https://api.themoviedb.org/3/search/movie?api_key=';
 function getKey(){
     $.ajax({
         type: 'GET',
         url: '/movieKey',
         complete: function(response){
-            urlOne+= response;
-        }
+            return(response);
     });
 }
 
@@ -15,7 +13,7 @@ function movieSearch(){
     var elementCount = 0
 
     $.ajax({
-        url: "https://api.themoviedb.org/3/search/movie?api_key="+ "NO"/*NEED TO IMPLEMENT API KYE HERE SOMEHOW*/ + "&query=" + search,
+        url: "https://api.themoviedb.org/3/search/movie?api_key="+ getKey() + "&query=" + search,
         dataType: "json",
         
         success: function(data){

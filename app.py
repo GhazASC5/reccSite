@@ -10,11 +10,12 @@ from dotenv import load_dotenv, find_dotenv
 
 app = Flask(__name__)
 
+#data for reccomendations
 movies_data = pd.read_csv("static/csv/DataforMovies.csv")
 books_data  = pd.read_csv("static/csv/Data_for_Books.csv")
 games_data  = pd.read_csv("static/csv/DataForGames.csv")
 
-
+#environment instnatiation to get keys
 ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
@@ -32,6 +33,23 @@ def index():
 @app.route('/bookReccomendation')
 def bookPage():
     return render_template('bookReccomendation.html') 
+
+#leads to movie reccomendation page
+@app.route('/movieReccomendation')
+def moviePage():
+    return render_template("movieReccomendation.html")
+
+#Leads to the game reccomendation page
+@app.route('/gameReccomendation')
+def gamePage():
+    return render_template("videoGameReccomendation.html")
+
+#leads to login page
+@app.route('/login')
+def loginPage():
+    return render_template("index.html")
+
+
 
 #reccomends books to user based on what they searched and clicked
 @app.route('/recc', methods=['GET', 'POST'])
@@ -78,34 +96,7 @@ def get_divinfo():
     bookInfo = {'Book_Name': book_names, "Url": book_url, "Book_Author": book_authors}
     return bookInfo
 
-#calls a function that takes in data from js and places it into a csv
-@app.route('/addToData', methods=['GET','POST'])
-def add_data_to_csv():
-    existingData = pd.read_csv("static/csv/googleBooksData.csv")
-    #checks if book is already in dataframe or not
-    if(request.args.get('book_name') in existingData.Book_Name.values):
-        return "Data exists"
-    else:
-        #instantiatees a data data frame for the new book
-        bookData = DataFrame({'Book_Name': request.args.get('book_name'), 'author': request.args.get('author'), "Url": request.args.get('url'),
-                     "Average_Rating": request.args.get('rating'), "Ratings_Count": request.args.get('ratings_count'), "Categories": request.args.get('categories'), "Year_Published": request.args.get('year_published')}, index =[0])
-
-        #realigns columns
-        bookData = bookData[['Book_Name', 'author', 'Url', 'Average_Rating', 'Ratings_Count','Categories','Year_Published']]
-        #adds data into the existing csv
-        bookData.to_csv("static/csv/googleBooksData.csv", mode= 'a', header=False, index=False)
-    return "Data was added"
-
-
-#leads to movie reccomendation page
-@app.route('/movieReccomendation')
-def moviePage():
-    return render_template("movieReccomendation.html")
-
-@app.route('/movieKey')
-def sendKey():
-    return movies_key
-
+#reccomends movies to user based on whats searched
 @app.route('/movieRecc')
 def getMovieReccomendation():
     movie_name = request.args.get('movie_name')
@@ -134,36 +125,39 @@ def getMovieReccomendation():
 
     return moviesInfo
 
-@app.route('/gameReccomendation')
-def gamePage():
-    return render_template("videoGameReccomendation.html")
 
 @app.route('/gameSearch')
 def gameSearch():
+    #url for search
     url = f"https://rawg-video-games-database.p.rapidapi.com/games?search={request.args.get('search')}" 
+
+    #header data for api request
 
     headers = {
         'x-rapidapi-host': f"{games_database}",
         'x-rapidapi-key': f"{games_key}"
         }
 
+    #turns response to json
     responseDict = requests.request("GET", url, headers=headers).json()
 
     info = {}
     info['game_info'] = []
-
+    
+    #parses data and adds to dictionary list
     for data in responseDict['results']:
-        gameSearch = f"https://rawg-video-games-database.p.rapidapi.com/games/{data['slug']}"
         info['game_info'].append({
             "game_name" : data['name'],
             "game_rating" : data['rating'],
             "game_ratings_count": data['ratings_count'], 
             "game_image" : data['background_image'],
-            "game_description": requests.request("GET", gameSearch, headers=headers).json()['description_raw']
+            "game_description": requests.request("GET", f"https://rawg-video-games-database.p.rapidapi.com/games/{data['slug']}", headers=headers).json()['description_raw'] #requests from the api and gets description for game
         })
 
     return info
 
+
+#reccomends games based on what users clicks on
 @app.route('/gameRecc')
 def gameRecc():
     game_name = request.args.get('game_name')
@@ -183,13 +177,23 @@ def gameRecc():
 
     #implement function to add links to csv from the api
     
+#calls a function that takes in data from js and places it into a csv
+@app.route('/addToData', methods=['GET','POST'])
+def add_data_to_csv():
+    existingData = pd.read_csv("static/csv/googleBooksData.csv")
+    #checks if book is already in dataframe or not
+    if(request.args.get('book_name') in existingData.Book_Name.values):
+        return "Data exists"
+    else:
+        #instantiatees a data data frame for the new book
+        bookData = DataFrame({'Book_Name': request.args.get('book_name'), 'author': request.args.get('author'), "Url": request.args.get('url'),
+                     "Average_Rating": request.args.get('rating'), "Ratings_Count": request.args.get('ratings_count'), "Categories": request.args.get('categories'), "Year_Published": request.args.get('year_published')}, index =[0])
 
-
-
-#leads to login page
-@app.route('/login')
-def loginPage():
-    return render_template("index.html")
+        #realigns columns
+        bookData = bookData[['Book_Name', 'author', 'Url', 'Average_Rating', 'Ratings_Count','Categories','Year_Published']]
+        #adds data into the existing csv
+        bookData.to_csv("static/csv/googleBooksData.csv", mode= 'a', header=False, index=False)
+    return "Data was added"
 
 #Used to check if login of a user exists in the database
 @app.route('/loginInput')
@@ -203,6 +207,11 @@ def tryLogin(methods=['POST']):
         return "EXISTS"
     
     return "NOT EXISTS"
+
+#Sends movies key back to js
+@app.route('/movieKey')
+def sendKey():
+    return movies_key
 
 if __name__ == '__main__':
     app.run(debug=True)
