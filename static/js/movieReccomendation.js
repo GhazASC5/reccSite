@@ -1,17 +1,26 @@
+let urlOne = 'https://api.themoviedb.org/3/search/movie?api_key=';
+function getKey(){
+    $.ajax({
+        type: 'GET',
+        url: '/movieKey',
+        complete: function(response){
+            urlOne+= response;
+        }
+    });
+}
+
 function movieSearch(){
     var search = document.getElementById('search').value
-    var a ='<a href="#" data-theme="b" data-role="button">',b='</a>'
     document.getElementById('results').innerHTML = ""
-    console.log(search)
-
     var elementCount = 0
 
     $.ajax({
-        url: "https://api.themoviedb.org/3/search/movie?api_key=4e7539d661536bf5a2c1c4ea8a1e3338&query=" + search,
+        url: "https://api.themoviedb.org/3/search/movie?api_key="+ "NO"/*NEED TO IMPLEMENT API KYE HERE SOMEHOW*/ + "&query=" + search,
         dataType: "json",
         
         success: function(data){
             for(i = 0 ; i < data.results.length ; i++){
+
                 console.log(data.results[i].poster_path);
                 
                 results.innerHTML  += "<div class= card style=width: 18rem;>" +
@@ -91,7 +100,7 @@ function returnReccomendation(movieData, modalId){
     }
     movieData = movieData.substr(2, movieData.length - 4)
     $.ajax({
-        url: 'https://api.themoviedb.org/3/search/movie?api_key=4e7539d661536bf5a2c1c4ea8a1e3338&query=' + movieData,
+        url: "https://api.themoviedb.org/3/search/movie?api_key="+ getKey() +"&query=" + movieData,
         dataType: "json",
         
         success: function(data){

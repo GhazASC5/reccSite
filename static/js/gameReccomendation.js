@@ -5,12 +5,12 @@ function videoGameSearch(){
         url: '/gameSearch',
         data: {search: document.getElementById('search').value},
         success: function(response){
+            results.innerHTML = "";
             for(i = 0 ; i < response.game_info.length ; i++){
                 results.innerHTML += "<div class= card style=width: 18rem;>" +
                                                 "<img class=card-img-top src=" + response.game_info[i].game_image  +">"+
                                                 "<div class = card-body>"+
                                                     "<h5 id=title"+i+" class=card-title>" + response.game_info[i].game_name + "</h5>"+
-                                                        // "<p id=author" + elementCount + ">" + data.items[i].volumeInfo.authors[0] +"</p>" +
                                                         // "<button style=margin-bottom:10px;width:175px: class=btn btn-primary onclick = displayModel(this.id) id=myBtn_" + elementCount + ">Book Description</button>" +
                                                         // "<div id=myModal"+elementCount + " class=modal>"+
                                                         //     "<div class=modal-content>" +

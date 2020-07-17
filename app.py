@@ -9,6 +9,7 @@ from os import environ as env
 from dotenv import load_dotenv, find_dotenv
 
 app = Flask(__name__)
+
 movies_data = pd.read_csv("static/csv/DataforMovies.csv")
 books_data  = pd.read_csv("static/csv/Data_for_Books.csv")
 games_data  = pd.read_csv("static/csv/DataForGames.csv")
@@ -20,6 +21,7 @@ if ENV_FILE:
 
 games_key = os.getenv('GAMES_API_KEY')
 games_database = os.environ.get('GAMES_DATABASE')
+movies_key = os.getenv('MOVIES_DATABASE')
 
 #opens up the userPage when the app starts
 @app.route('/')
@@ -100,6 +102,10 @@ def add_data_to_csv():
 def moviePage():
     return render_template("movieReccomendation.html")
 
+@app.route('/movieKey')
+def sendKey():
+    return movies_key
+
 @app.route('/movieRecc')
 def getMovieReccomendation():
     movie_name = request.args.get('movie_name')
@@ -134,28 +140,49 @@ def gamePage():
 
 @app.route('/gameSearch')
 def gameSearch():
-    url = "https://rawg-video-games-database.p.rapidapi.com/games?search=" + request.args.get('search')
+    url = f"https://rawg-video-games-database.p.rapidapi.com/games?search={request.args.get('search')}" 
 
     headers = {
-        'x-rapidapi-host' games_key,
-        'x-rapidapi-key': games_database
-    }
-    
+        'x-rapidapi-host': f"{games_database}",
+        'x-rapidapi-key': f"{games_key}"
+        }
+
     responseDict = requests.request("GET", url, headers=headers).json()
 
-    returnInfo = {}
-    returnInfo['game_info'] = []
+    info = {}
+    info['game_info'] = []
 
-    for info in responseDict['results']:
-        print(info['name'])
-        returnInfo['game_info'].append({
-            "game_name" : info['name'],
-            "game_rating" : info['rating'],
-            "game_ratings_count": info['ratings_count'], 
-            "game_image" : info['background_image']
+    for data in responseDict['results']:
+        gameSearch = f"https://rawg-video-games-database.p.rapidapi.com/games/{data['slug']}"
+        info['game_info'].append({
+            "game_name" : data['name'],
+            "game_rating" : data['rating'],
+            "game_ratings_count": data['ratings_count'], 
+            "game_image" : data['background_image'],
+            "game_description": requests.request("GET", gameSearch, headers=headers).json()['description_raw']
         })
 
-    return returnInfo
+    return info
+
+@app.route('/gameRecc')
+def gameRecc():
+    game_name = request.args.get('game_name')
+
+    game_data = games_data[games_data['Name'] == game_name]
+
+    find_match = games_data[(games_data['Genre'] == game_data.Genre.values[0])&
+                (games_data['Rating'] == game_data.Rating.values[0])&
+                (abs(games_data['Year_of_Release'] - game_data['Year_of_Release'].values[0]) <= 5.0)&
+                (abs(games_data['Global_Sales'] - game_data['Global_Sales'].values[0]) <= 60)&
+                (abs(games_data['Critic_Score'] - game_data['Critic_Score'].values[0]) <= 5)&
+                (abs(games_data['User_Score'] - game_data['User_Score'].values[0]) <= 5)&
+                (abs(games_data['Critic_Count'] - game_data['Critic_Count'].values[0]) <= 200)&
+                (abs(games_data['User_Count'] - game_data['User_Count'].values[0]) <= 10000)]
+
+    find_match.drop(find_match[find_match['Name'] == game_data.Name.values[0]].index, inplace = True)
+
+    #implement function to add links to csv from the api
+    
 
 
 
@@ -163,8 +190,6 @@ def gameSearch():
 @app.route('/login')
 def loginPage():
     return render_template("index.html")
-
-
 
 #Used to check if login of a user exists in the database
 @app.route('/loginInput')
