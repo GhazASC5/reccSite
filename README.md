@@ -5,15 +5,9 @@
 * ~~Use _python_ to compile dataset~~
 * ~~Instantiate _flask_ pages~~
 * ~~_Send_ reccmmendations from _python_ back to _html_~~
-* Clean up _CSS_ and _HTML_
+* ~~Clean up _CSS_ and _HTML_~~
 * ~~Implement function to add data from _Books Api_ to a _csv_~~
 * ~~Repeat last 3 steps for movies~~
-* Repeat last 3 steps for video games
-* Implement function to add relevant data when searching back to a data set
-* Create a function to automate compiling data to place into larger data set
+* ~~Repeat last 3 steps for video games~~
 * ~~Connect login page to _SQL_ server~~
-* Move all js searches to python
-* Finish README description
-- Maybe
-    * Implement _flask freeze_ pages in order to deploy on github
-    * Use jinga to make some of the implementations more automated
+* ~~Finish README description~~

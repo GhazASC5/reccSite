@@ -71,6 +71,7 @@ function getReccomendation(id){
         data: {game_name: document.getElementById("title"+id).textContent},
         success: function(response){
             document.getElementById("someId").style.display = "block";
+            yourList.innerHTML = "";
             for(i = 0 ; i < 3 ; i++){
                 yourList.innerHTML +=   "<div class= card style=width: 18rem;>" +
                                             "<img class=card-img-top src=" + response.game_info[i].game_image_links + ">"+
