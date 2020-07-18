@@ -6,24 +6,26 @@ function videoGameSearch(){
         data: {search: document.getElementById('search').value},
         success: function(response){
             results.innerHTML = "";
+            let elementCount = 0
             for(i = 0 ; i < response.game_info.length ; i++){
                 results.innerHTML += "<div class= card style=width: 18rem;>" +
                                                 "<img class=card-img-top src=" + response.game_info[i].game_image  +">"+
                                                 "<div class = card-body>"+
                                                     "<h5 id=title"+i+" class=card-title>" + response.game_info[i].game_name + "</h5>"+
-                                                        "<button style=margin-bottom:10px;width:175px: class=btn btn-primary onclick = displayModel(this.id) id=myBtn_" + elementCount + ">Book Description</button>" +
+                                                        "<button style=margin-bottom:10px;width:175px: class=btn btn-primary onclick = displayModel(this.id) id=myBtn_" + elementCount + ">Game Description</button>" +
                                                         "<div id=myModal"+elementCount + " class=modal>"+
                                                             "<div class=modal-content>" +
                                                                 "<span id =close"+elementCount+ " class=close>&times;</span>"+
-                                                                "<h4> Title: "+data.items[i].volumeInfo.title+"</h1>"+
-                                                                "<h4> Author: "+data.items[i].volumeInfo.authors[0]+"</h3>"+
-                                                                "<h4> Book Description: </h4>"+ 
-                                                                "<p>"+data.items[i].volumeInfo.description+"</p>"+
+                                                                "<h4> Title: "+response.game_info[i].game_name+"</h1>"+
+                                                                "<h4> Publisher: "+response.game_info[i].game_publisher+"</h3>"+
+                                                                "<h4> Game Description: </h4>"+ 
+                                                                "<p>"+response.game_info[i].game_description+"</p>"+
                                                                 "</div>"+
                                                         "</div>"+
-                                                    "<button id=" + i + " type = button onclick = addBookToYourList(this.id) class=btn btn-primary>Get Reccomendation</button>" +
+                                                    "<button id=" + i + " type = button onclick = getReccomendation(this.id) class=btn btn-primary>Get Reccomendation</button>" +
                                                 "</div>"+
                                             "</div>"
+                elementCount++;
             }
         }
     });
@@ -56,4 +58,27 @@ function displayModel(this_id){
             modal.style.display = "none";
         }
     }
+}
+
+
+function getReccomendation(id){
+    jQuery.support.cors = true;
+    $.ajax({
+        type: 'GET',
+        url: '/gameRecc',
+        async: false,
+        cache: false, 
+        data: {game_name: document.getElementById("title"+id).textContent},
+        success: function(response){
+            document.getElementById("someId").style.display = "block";
+            for(i = 0 ; i < 3 ; i++){
+                yourList.innerHTML +=   "<div class= card style=width: 18rem;>" +
+                                            "<img class=card-img-top src=" + response.game_info[i].game_image_links + ">"+
+                                            "<div class = card-body>"+
+                                                "<h5 id=title"+i+" class=card-title>" +  response.game_info[i].game_name + "</h5>"+
+                                            "</div>"+
+                                        "</div>"
+            }
+        }
+    });
 }

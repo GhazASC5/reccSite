@@ -20,9 +20,9 @@ ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
 
-games_key = os.getenv('GAMES_API_KEY')
+games_key = os.environ.get('GAMES_API_KEY')
 games_database = os.environ.get('GAMES_DATABASE')
-movies_key = os.getenv('MOVIES_DATABASE')
+movies_key = os.environ.get('MOVIES_DATABASE')
 
 #opens up the userPage when the app starts
 @app.route('/')
@@ -48,8 +48,6 @@ def gamePage():
 @app.route('/login')
 def loginPage():
     return render_template("index.html")
-
-
 
 #reccomends books to user based on what they searched and clicked
 @app.route('/recc', methods=['GET', 'POST'])
@@ -125,7 +123,6 @@ def getMovieReccomendation():
 
     return moviesInfo
 
-
 @app.route('/gameSearch')
 def gameSearch():
     #url for search
@@ -136,7 +133,7 @@ def gameSearch():
     headers = {
         'x-rapidapi-host': f"{games_database}",
         'x-rapidapi-key': f"{games_key}"
-        }
+    }
 
     #turns response to json
     responseDict = requests.request("GET", url, headers=headers).json()
@@ -146,20 +143,42 @@ def gameSearch():
     
     #parses data and adds to dictionary list
     for data in responseDict['results']:
+        specific_information = requests.request("GET", f"https://rawg-video-games-database.p.rapidapi.com/games/{data['slug']}", headers=headers).json()
+
+        platforms = []
+
+        for x in data['platforms']:
+            platforms.append(x['platform']['name'])
+        
+        publisher = ""
+        try:
+            publisher = specific_information['publishers'][0]['name']
+        except:
+            print("Publisher not found")
+        else:
+            publisher = specific_information['publishers'][0]['name']
+
+
         info['game_info'].append({
             "game_name" : data['name'],
             "game_rating" : data['rating'],
             "game_ratings_count": data['ratings_count'], 
+            "game_platforms": platforms,
             "game_image" : data['background_image'],
-            "game_description": requests.request("GET", f"https://rawg-video-games-database.p.rapidapi.com/games/{data['slug']}", headers=headers).json()['description_raw'] #requests from the api and gets description for game
+            "game_description": specific_information['description_raw'],
+            "game_publisher": publisher
         })
 
     return info
 
-
 #reccomends games based on what users clicks on
 @app.route('/gameRecc')
 def gameRecc():
+    headers = {
+        'x-rapidapi-host': f"{games_database}",
+        'x-rapidapi-key': f"{games_key}"
+    }
+
     game_name = request.args.get('game_name')
 
     game_data = games_data[games_data['Name'] == game_name]
@@ -175,7 +194,31 @@ def gameRecc():
 
     find_match.drop(find_match[find_match['Name'] == game_data.Name.values[0]].index, inplace = True)
 
+    # find_match = find_match.iloc[:3]
+
     #implement function to add links to csv from the api
+    info = {}
+    info['game_info'] = []
+
+    for x in range(3):
+        list_url = f"https://rawg-video-games-database.p.rapidapi.com/games?search={find_match.iloc[[x]]['Name'].values[0]}" 
+        games_list = requests.request("GET", list_url , headers=headers).json()
+
+        imageLink = ""
+
+        for data in games_list['results']:
+            if data['name'] == find_match.iloc[[x]]['Name'].values[0]:
+                imageLink =  data['background_image']
+
+        info['game_info'].append({
+            "game_name" : find_match.iloc[[x]]['Name'].values[0],
+            "game_image_links" : imageLink
+        })
+
+    return info
+        
+
+
     
 #calls a function that takes in data from js and places it into a csv
 @app.route('/addToData', methods=['GET','POST'])

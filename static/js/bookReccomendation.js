@@ -4,7 +4,6 @@ function bookSearch(){
     }
     var search = document.getElementById('search').value
     document.getElementById('results').innerHTML = ""
-    console.log(search)
     var elementCount = 0;
 
     $.ajax({
@@ -12,7 +11,6 @@ function bookSearch(){
         dataType: "json",
         
         success: function(data){
-            console.log(data)
             for(i = 0 ; i < data.items.length ; i++){
                 if(bookSearch.counter == 0){
                     searchbar.innerHTML +="<h2 style = left:50%>Search Results</h2>"  
@@ -99,16 +97,14 @@ function addToCsv(bookName, author, url, ratings, ratingsCount, categories, publ
 
 function addBookToYourList(id){
     jQuery.support.cors = true;
-    var divName = "card" + id;
-    let thisDiv = $(divName).html();
     $.ajax({
         type: 'GET',
         url: '/recc',
         data: {book_name: document.getElementById("title"+id).textContent},
         success: function(response){
             document.getElementById("someId").style.display = "block";
+            
             for(i = 0 ; i < 3 ; i++){
-                console.log(response.Book_Name[i] + " " + response.Url[i]);
                 yourList.innerHTML +=   "<div class= card style=width: 18rem;>" +
                                             "<img class=card-img-top src=" + response.Url[i] + ">"+
                                             "<div class = card-body>"+

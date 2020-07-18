@@ -1,10 +1,17 @@
 function getKey(){
+    let key = "";
+    
     $.ajax({
         type: 'GET',
         url: '/movieKey',
-        complete: function(response){
-            return(response);
+        async: false, 
+        cache: false,
+        success: function(response){
+            key =  response;
+        }
     });
+
+    return(key)
 }
 
 function movieSearch(){
@@ -18,9 +25,6 @@ function movieSearch(){
         
         success: function(data){
             for(i = 0 ; i < data.results.length ; i++){
-
-                console.log(data.results[i].poster_path);
-                
                 results.innerHTML  += "<div class= card style=width: 18rem;>" +
                                             "<img style= width: 200px; height: 200px;class=card-img-top src=https://image.tmdb.org/t/p/w185" + data.results[i].poster_path +">"+
                                             "<div class = card-body>"+
@@ -37,7 +41,6 @@ function movieSearch(){
                                                 "<button id=" +elementCount+ " onclick = movieReccomendation(this.id) type = button class=btn btn-primary>Get Reccomendation</button>" +
                                             "</div>"+
                                         "</div>"
-                
                 elementCount++
             }
         },
@@ -76,9 +79,7 @@ function displayModel(this_id){
 
 function movieReccomendation(id){
     jQuery.support.cors = true;
-    // var divName = "card" + id;
-    console.log(document.getElementById("title"+id).textContent);
-    // let thisDiv = $(divName).html();
+    
     $.ajax({
         type: 'GET',
         url: '/movieRecc',
@@ -103,12 +104,14 @@ function returnReccomendation(movieData, modalId){
         
         success: function(data){
             foundIndex = -1
+
             for(i = 0; i < data.results.length; i++){
                 if(data.results[i].title == movieData){
                     foundIndex = i;
                     break;
                 }
             }
+
             if(foundIndex != -1){
                 let newId = modalId + 100
                 yourList.innerHTML  += "<div class= card style=width: 18rem;>" +
